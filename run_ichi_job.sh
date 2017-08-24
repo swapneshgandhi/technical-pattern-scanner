@@ -5,7 +5,7 @@ if [[  ! `grep "$date_today" doneFile` ]] ;then
     mv outfile.txt outfile_prev.txt
     /usr/local/bin/Rscript ichimoko_ikt.R
     if [ $? -eq 0 ];then
-      echo -e 'xyz\n' | /usr/local/bin/gpg --no-tty --passphrase-fd 0 pd.gpg
+      echo -e 'mhane thano sinha huno hai!\n' | /usr/local/bin/gpg --no-tty --passphrase-fd 0 pd.gpg
       pd=`cat pd` && rm pd
       sort outfile.txt -o outfile.txt
       diff outfile_prev.txt outfile.txt > diff_yest.txt

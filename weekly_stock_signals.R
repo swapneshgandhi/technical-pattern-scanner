@@ -24,7 +24,7 @@ args<-commandArgs(TRUE)
 
 "anyGood" <- function(ic, quote, name) {
   
-    limit = 10.0
+    limit = 4.0
     close = tail(ic, n=1)[,1]
     line1 = tail(ic, n=1)[,2]
     line2 = tail(ic, n=1)[,3]
@@ -53,17 +53,18 @@ for(i in 1:nrow(input))
   quote = input[i,1]
   name = input[i,2]
   tryCatch({
-    data=Quandl(quote, api_key="7BS7k1_dnKCP3h2FefxA", trim_start=start_date, type = "xts")
-    if (mean(tail(data,n=7)[,6]) > 50000){
+    data=Quandl(quote, api_key="7BS7k1_dnKCP3h2FefxA", trim_start=start_date, type = "xts", frequency= "daily")
+    if (mean(tail(data,n=7)[,6]) > 10000){
       if ( length(grep("CHRIS",quote))>0){
         x=as.quantmod.OHLC(data[,1:4],col.names = c("Open", "High","Low", "Close"))
         ic = ichimoku(xts(x[,1:4]),18,52,104)
       } else{
         ic = ichimoku(data[,1:4],18,52,104)
       }
+      anyGood(ic,quote,name)
     }
-      anyGood(ic,quote,name)},error = function(err) {
-      })
+        },error = function(err) {
+  })
 }
 
 sink()
